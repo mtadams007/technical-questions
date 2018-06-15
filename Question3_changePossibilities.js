@@ -1,6 +1,6 @@
 let changePossibilities = (amount, denominations) => {
-  // we will order the denominations so we can go through them from biggest to smallest
-  denominations.sort().reverse()
+  // we will order the denominations first
+  denominations.sort()
   let possibilities = 0;
   dLength = denominations.length
   // we will cycle through our numbers as often as the amount
