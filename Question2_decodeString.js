@@ -1,6 +1,8 @@
-// First we want to create a recursive function that will break down our strings. the number is the amount of brackets we must go through
+// First we want to find the innermost brackets and evaluate them first
 let findInnermostBracket = (s,num) => {
   let sLength = s.length;
+
+  let multiplier = 1;
   // newString is what we'll add to our old string
   let newString = ''
   // here we're checking if there are any brackets or if we're done
@@ -19,16 +21,33 @@ let findInnermostBracket = (s,num) => {
     i++
   }
   if (openingBracket === 'nope'){
+
     return;
   } else {
     // the multiplier is how many times we repeat the string within brackets
-    let multiplier = parseInt(s[openingBracket-1], 10);
+    // We need to check cases where the multiplier is greater than 9
+    let isNumber = 1
+      while(parseInt(s[openingBracket - isNumber],10)||s[openingBracket - isNumber]==='0') {
+        multiplier = parseInt(s.substring(openingBracket - isNumber, openingBracket),10)
+        isNumber++
+
+      }
     let stringToMultiply = s.substring(openingBracket+1,closingBracket);
     for(let i = 0; i<multiplier; i++) {
       newString += stringToMultiply;
     }
   }
-  let stringToReturn = (s.substring(0,openingBracket-1)+newString + s.substring(closingBracket+1))
+  let stringToReturn = newString
+  let exponent = 1
+  while(exponent){
+    // We need to check cases where the multiplier is greater than 9
+    if (multiplier < Math.pow(10, exponent)) {
+      stringToReturn = (s.substring(0,openingBracket-exponent)+newString + s.substring(closingBracket+1));
+      break;
+   } else {
+   exponent++
+   }
+}
   if(num != 1) {
     return findInnermostBracket(stringToReturn, num-1)
   } else {
